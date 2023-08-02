@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verificação de Notas e Frequência</title>
+</head>
+<body>
+  <h1>Verificação de Notas e Frequência</h1>
+  <form>
+    <label for="notaProva">Nota da Prova: </label>
+    <input type="number" id="notaProva" step="0.01" required><br><br>
+
+    <label for="notaTrabalho">Nota do Trabalho: </label>
+    <input type="number" id="notaTrabalho" step="0.01" required><br><br>
+
+    <label for="presencas">Quantidade de Presenças: </label>
+    <input type="number" id="presencas" step="1" required><br><br>
+
+    <button type="button" onclick="verificarAluno()">Verificar Situação</button>
+  </form>
+
+  <p id="resultado"></p>
+
+  <script>
+    function verificarAluno() {
+      const notaProva = parseFloat(document.getElementById("notaProva").value);
+      const notaTrabalho = parseFloat(document.getElementById("notaTrabalho").value);
+      const presencas = parseInt(document.getElementById("presencas").value);
+
+      // Verificando se as notas e a quantidade de presenças são válidas
+      if (isNaN(notaProva) || isNaN(notaTrabalho) || isNaN(presencas)) {
+        alert("Por favor, preencha todas as notas e a quantidade de presenças corretamente.");
+        return;
+      }
+
+      // Calculando a média ponderada
+      const media = (notaProva * 0.6) + (notaTrabalho * 0.4);
+
+      // Verificando as condições de aprovação
+      if (media >= 6 && presencas >= 75) {
+        exibirResultado(`Aluno aprovado com média final ${media.toFixed(2)}`);
+      } else if (media >= 4 && media < 6 && presencas >= 75) {
+        exibirResultado("Aluno em exame");
+      } else if (media < 4) {
+        exibirResultado(`Aluno reprovado com média final ${media.toFixed(2)}`);
+      } else {
+        exibirResultado("Aluno reprovado por não atingir a frequência mínima.");
+      }
+    }
+
+    function exibirResultado(mensagem) {
+      const resultadoElement = document.getElementById("resultado");
+      resultadoElement.textContent = mensagem;
+    }
+  </script>
+</body>
+</html>
+
+
+
